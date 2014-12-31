@@ -70,9 +70,11 @@ class _UDPHandler(socketserver.BaseRequestHandler):
         for handler in handlers:
           if handler.args:
             handler.callback(
-                timed_msg.message.address, handler.args, *timed_msg.message)
+              self.client_address,
+              timed_msg.message.address, handler.args, *timed_msg.message)
           else:
-            handler.callback(timed_msg.message.address, *timed_msg.message)
+            handler.callback(self.client_address,
+              timed_msg.message.address, *timed_msg.message)
     except osc_packet.ParseError:
       pass
 
